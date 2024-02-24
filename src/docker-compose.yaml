@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  bot:
+    container_name: test_bot
+    build: .
+  db:
+    container_name: db_test_bot
+    ports:
+      - "6101:6101"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=maintainer
+    image: postgres:14.5
+    command: 
+      - "postgres"
+      - "-c"
+      - "port=6101"
+    volumes:
+      - type: bind
+        source: D:\keystore\fg\test_bot\src\db_data
+        target: /var/lib/postgresql/data

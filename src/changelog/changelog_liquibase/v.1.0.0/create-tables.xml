@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="create-table_user_info" author="test_user">
+        <createTable tableName="user_info">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="user_id_telegram" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status_updated_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>    
+        </createTable>
+        
+        <createTable tableName="statuses">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="user_info" 
+            baseColumnNames="status_id"
+            referencedTableName="statuses" 
+            referencedColumnNames="id"  
+            constraintName="fk_statuses_id"/>
+        
+        <insert tableName="statuses">
+            <column name="name" value="alive"/>
+            <column name="description" value="По умолчанию, получаем только таких пользователей"/>
+        </insert>
+        <insert tableName="statuses">
+            <column name="name" value="dead"/>
+            <column name="description" value="Если получили ошибки при отправке\проверке триггеров например: BotBlocked, UserDeactivated, ChatNotFound"/>
+        </insert>
+        <insert tableName="statuses">
+            <column name="name" value="finished "/>
+            <column name="description" value="Конец воронки"/>
+        </insert>
+        <rollback>
+            <dropTable tableName="user_info"/>
+            <dropTable tableName="statuses"/>
+        </rollback>
+    </changeSet>
+    
+</databaseChangeLog>

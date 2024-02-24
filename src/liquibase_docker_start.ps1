@@ -1,0 +1,1 @@
+docker run --name liquibase_test_bot --network=host -v d:/keystore/fg/test_bot/src/changelog/liquibase.properties:/liquibase/liquibase.properties --mount type=bind,source=d:/keystore/fg/test_bot/src/changelog,target=/liquibase/changelog liquibase/liquibase --defaultsFile=/liquibase/liquibase.properties update

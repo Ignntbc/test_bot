@@ -21,9 +21,24 @@
             <column name="status_updated_at" type="timestamp">
                 <constraints nullable="false"/>
             </column>    
+            <column name="stage_id" type="int">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         
         <createTable tableName="statuses">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="nvarchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="stages">
             <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
@@ -40,7 +55,26 @@
             referencedTableName="statuses" 
             referencedColumnNames="id"  
             constraintName="fk_statuses_id"/>
+
+        <addForeignKeyConstraint baseTableName="user_info"
+            baseColumnNames="stage_id"
+            referencedTableName="stages"
+            referencedColumnNames="id"
+            constraintName="fk_stages_id"/>
         
+        <insert tableName="stages">
+            <column name="name" value="1"/>
+            <column name="description" value="Начало воронки"/>
+        </insert>
+        <insert tableName="stages">
+            <column name="name" value="2"/>
+            <column name="description" value="Проверка на живость"/>
+        </insert>
+        <insert tableName="stages">
+            <column name="name" value="3"/>
+            <column name="description" value="Завершение воронки"/>
+        </insert>
+
         <insert tableName="statuses">
             <column name="name" value="alive"/>
             <column name="description" value="По умолчанию, получаем только таких пользователей"/>

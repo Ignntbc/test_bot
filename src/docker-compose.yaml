@@ -4,6 +4,8 @@ services:
   bot:
     container_name: test_bot
     build: .
+    depends_on:
+      - db
   db:
     container_name: db_test_bot
     ports:
